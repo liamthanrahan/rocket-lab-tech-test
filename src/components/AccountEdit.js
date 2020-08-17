@@ -34,6 +34,7 @@ const BackButtonIcon = styled(MdKeyboardArrowLeft)`
 const SaveButton = styled.div`
   align-self: flex-end;
   color: ${(props) => (props.disabled ? '#CCCCCC' : '#169bd5')};
+  cursor: ${(props) => (props.disabled ? 'auto' : 'pointer')};
   text-decoration: none;
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
 `
@@ -90,18 +91,19 @@ class AccountEdit extends Component {
     this.setState({ [field]: e.target.value })
   }
 
-  handleError = (e) => {
-    console.log('e', e)
-    return false
-  }
-
   render() {
     const { firstName, lastName, email, phone, dob, bio } = this.state
 
     const isFirstNameError = firstName.length === 0
     const isLastNameError = lastName.length === 0
-    const isEmailError = email.length === 0
-    const isPhoneError = phone.length === 0
+    const emailRegex = new RegExp(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
+    const isEmailError = !emailRegex.test(email)
+    const phoneRegex = new RegExp(
+      /^\({0,1}((0|\+61)(2|4|3|7|8)){0,1}\){0,1}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{1}(\ |-){0,1}[0-9]{3}$/
+    )
+    const isPhoneError = !phoneRegex.test(phone)
     const isDobError = dob.length === 0
     const isBioError = bio.length === 0
     const isAnyError =
@@ -176,9 +178,11 @@ class AccountEdit extends Component {
               type="date"
               fullWidth
               value={dob}
-              helperText={isPhoneError ? 'Your date of birth is required' : ''}
               onChange={(e) => this.handleChange(e, 'dob')}
             />
+            <TextAreaError>
+              {isDobError ? 'Your date of birth is required' : ''}
+            </TextAreaError>
           </StretchBox>
           <StretchBox>
             <Label error={isBioError}>Bio</Label>
