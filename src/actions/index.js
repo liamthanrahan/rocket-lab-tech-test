@@ -1,0 +1,1 @@
+export { editDetails } from './account'

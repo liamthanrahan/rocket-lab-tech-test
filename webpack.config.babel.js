@@ -44,6 +44,16 @@ export default () => {
             loader: 'babel-loader',
           },
         },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(jpe?g|png|gif|ico|woff|woff2)$/,
+          use: {
+            loader: 'url-loader',
+          },
+        },
       ],
     },
     devServer: {

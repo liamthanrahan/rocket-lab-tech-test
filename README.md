@@ -6,9 +6,13 @@ A React Frontend tech test for Rocket Lab
 
 `npm install`
 
-## Build and Run
+## Run
 
 `npm start`
+
+## Build
+
+`npm run build`
 
 ## Tests
 
