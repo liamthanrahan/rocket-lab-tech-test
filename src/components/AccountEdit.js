@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { editDetails } from '../actions'
-import { IconContext } from 'react-icons'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import styled from '@emotion/styled'
 import Container from '@material-ui/core/Container'
@@ -31,10 +31,11 @@ const BackButtonIcon = styled(MdKeyboardArrowLeft)`
   color: black;
 `
 
-const SaveButton = styled(Link)`
+const SaveButton = styled.div`
   align-self: flex-end;
-  color: #169bd5;
+  color: ${(props) => (props.disabled ? '#CCCCCC' : '#169bd5')};
   text-decoration: none;
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
 `
 
 const StyledCard = styled(Card)`
@@ -54,7 +55,7 @@ const StretchBox = styled.div`
 `
 
 const Label = styled.div`
-  color: #00ae95;
+  color: ${(props) => (props.error ? '#f44336' : '#00ae95')};
   font-weight: 700;
 `
 
@@ -63,12 +64,26 @@ const FullWidthTextareaAutosize = styled(TextareaAutosize)`
   margin-top: 1em;
 `
 
+const TextAreaError = styled.div`
+  margin-top: 3px;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  color: #f44336;
+`
+
 class AccountEdit extends Component {
   constructor(props) {
     super(props)
     // Copy across the existing details to the state to be edited from the controlled inputs
     // If we choose not to save the changes we don't want to overwrite the previous values
     this.state = Object.assign({}, props.data)
+  }
+
+  handleSave = () => {
+    const { editDetails, history } = this.props
+    editDetails(this.state)
+    history.push('/')
   }
 
   handleChange = (e, field) => {
@@ -82,6 +97,21 @@ class AccountEdit extends Component {
 
   render() {
     const { firstName, lastName, email, phone, dob, bio } = this.state
+
+    const isFirstNameError = firstName.length === 0
+    const isLastNameError = lastName.length === 0
+    const isEmailError = email.length === 0
+    const isPhoneError = phone.length === 0
+    const isDobError = dob.length === 0
+    const isBioError = bio.length === 0
+    const isAnyError =
+      isFirstNameError ||
+      isLastNameError ||
+      isEmailError ||
+      isPhoneError ||
+      isDobError ||
+      isBioError
+
     return (
       <Container maxWidth="sm">
         <Top>
@@ -89,58 +119,69 @@ class AccountEdit extends Component {
             <BackButtonIcon />
           </BackButton>
           <PageHeader>My Account</PageHeader>
-          <SaveButton to="/">Save</SaveButton>
+          <SaveButton disabled={isAnyError} onClick={this.handleSave}>
+            Save
+          </SaveButton>
         </Top>
         <StyledCard>
           <StretchBox>
-            <Label>First Name</Label>
+            <Label error={isFirstNameError}>First Name</Label>
             <TextField
-              //   error={this.isFirstNameError()}
+              error={isFirstNameError}
               id="standard-basic"
               fullWidth
               value={firstName}
+              helperText={isFirstNameError ? 'Your first name is required' : ''}
               onChange={(e) => this.handleChange(e, 'firstName')}
             />
           </StretchBox>
           <StretchBox>
-            <Label>Last name</Label>
+            <Label error={isLastNameError}>Last name</Label>
             <TextField
+              error={isLastNameError}
               id="standard-basic"
               fullWidth
               value={lastName}
+              helperText={isLastNameError ? 'Your last name is required' : ''}
               onChange={(e) => this.handleChange(e, 'lastName')}
             />
           </StretchBox>
           <StretchBox>
-            <Label>Email</Label>
+            <Label error={isEmailError}>Email</Label>
             <TextField
+              error={isEmailError}
               id="standard-basic"
               fullWidth
               value={email}
+              helperText={isEmailError ? 'Your email is not a valid email' : ''}
               onChange={(e) => this.handleChange(e, 'email')}
             />
           </StretchBox>
           <StretchBox>
-            <Label>Phone</Label>
+            <Label error={isPhoneError}>Phone</Label>
             <TextField
+              error={isPhoneError}
               id="standard-basic"
               fullWidth
               value={phone}
+              helperText={isPhoneError ? 'Your email is not a valid email' : ''}
               onChange={(e) => this.handleChange(e, 'phone')}
             />
           </StretchBox>
           <StretchBox>
-            <Label>Date of Birth</Label>
+            <Label error={isDobError}>Date of Birth</Label>
             <TextField
+              error={isDobError}
               id="date"
               type="date"
               fullWidth
               value={dob}
+              helperText={isPhoneError ? 'Your date of birth is required' : ''}
               onChange={(e) => this.handleChange(e, 'dob')}
             />
           </StretchBox>
           <StretchBox>
-            <Label>Bio</Label>
+            <Label error={isBioError}>Bio</Label>
             <FullWidthTextareaAutosize
               id="standard-basic"
               label="Bio"
@@ -148,6 +189,9 @@ class AccountEdit extends Component {
               value={bio}
               onChange={(e) => this.handleChange(e, 'bio')}
             />
+            <TextAreaError>
+              {isBioError ? 'Please provide a bio' : ''}
+            </TextAreaError>
           </StretchBox>
         </StyledCard>
       </Container>
@@ -163,4 +207,7 @@ const mapDispatchToProps = {
   editDetails,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountEdit)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(AccountEdit))

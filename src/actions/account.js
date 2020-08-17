@@ -1,3 +1,4 @@
-export const editDetails = (data) => {
-  type: 'EDIT_DETAILS', data
-}
+export const editDetails = (data) => ({
+  type: 'EDIT_DETAILS',
+  data,
+})
