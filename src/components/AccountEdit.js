@@ -173,7 +173,11 @@ export default class AccountEdit extends Component {
               id="standard-basic"
               fullWidth
               value={phone}
-              helperText={isPhoneError ? 'Your email is not a valid email' : ''}
+              helperText={
+                isPhoneError
+                  ? 'Your phone number is not a valid phone number'
+                  : ''
+              }
               onChange={e => this.handleChange(e, 'phone')}
             />
           </StretchBox>
