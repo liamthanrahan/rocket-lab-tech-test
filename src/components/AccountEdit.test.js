@@ -38,7 +38,7 @@ it('should not mutate state when back button is clicked', () => {
       <AccountEdit
         data={initialState}
         editDetails={mockEditDetails}
-        history={[]}
+        history={{ push: jest.fn() }}
       />
     </Router>
   )
@@ -54,7 +54,11 @@ it('should mutate state when save button is clicked and valid data is provided',
   const mockEditDetails = jest.fn()
   render(
     <Router>
-      <AccountEdit data={newState} editDetails={mockEditDetails} history={[]} />
+      <AccountEdit
+        data={newState}
+        editDetails={mockEditDetails}
+        history={{ push: jest.fn() }}
+      />
     </Router>
   )
 
@@ -72,7 +76,7 @@ it('should not mutate state when save button is clicked and invalid data is prov
       <AccountEdit
         data={invalidState}
         editDetails={mockEditDetails}
-        history={[]}
+        history={{ push: jest.fn() }}
       />
     </Router>
   )
