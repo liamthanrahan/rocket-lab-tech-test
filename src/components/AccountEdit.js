@@ -145,7 +145,7 @@ export default class AccountEdit extends Component {
             />
           </StretchBox>
           <StretchBox>
-            <Label error={isLastNameError}>Last name</Label>
+            <Label error={isLastNameError}>Last Name</Label>
             <TextField
               error={isLastNameError}
               id="standard-basic"
