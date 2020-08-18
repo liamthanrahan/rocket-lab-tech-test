@@ -31,10 +31,10 @@ const BackButtonIcon = styled(MdKeyboardArrowLeft)`
 
 const SaveButton = styled.div`
   align-self: flex-end;
-  color: ${(props) => (props.disabled ? '#CCCCCC' : '#169bd5')};
-  cursor: ${(props) => (props.disabled ? 'auto' : 'pointer')};
+  color: ${props => (props.disabled ? '#CCCCCC' : '#169bd5')};
+  cursor: ${props => (props.disabled ? 'auto' : 'pointer')};
   text-decoration: none;
-  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
 `
 
 const StyledCard = styled(Card)`
@@ -54,7 +54,7 @@ const StretchBox = styled.div`
 `
 
 const Label = styled.div`
-  color: ${(props) => (props.error ? '#f44336' : '#00ae95')};
+  color: ${props => (props.error ? '#f44336' : '#00ae95')};
   font-weight: 700;
 `
 
@@ -76,7 +76,7 @@ export default class AccountEdit extends Component {
     super(props)
     // Copy across the existing details to the state to be edited from the controlled inputs
     // If we choose not to save the changes we don't want to overwrite the previous values
-    this.state = Object.assign({}, props.data)
+    this.state = { ...props.data }
   }
 
   handleSave = () => {
@@ -140,7 +140,7 @@ export default class AccountEdit extends Component {
               fullWidth
               value={firstName}
               helperText={isFirstNameError ? 'Your first name is required' : ''}
-              onChange={(e) => this.handleChange(e, 'firstName')}
+              onChange={e => this.handleChange(e, 'firstName')}
               data-testid="firstname"
             />
           </StretchBox>
@@ -152,7 +152,7 @@ export default class AccountEdit extends Component {
               fullWidth
               value={lastName}
               helperText={isLastNameError ? 'Your last name is required' : ''}
-              onChange={(e) => this.handleChange(e, 'lastName')}
+              onChange={e => this.handleChange(e, 'lastName')}
             />
           </StretchBox>
           <StretchBox>
@@ -163,7 +163,7 @@ export default class AccountEdit extends Component {
               fullWidth
               value={email}
               helperText={isEmailError ? 'Your email is not a valid email' : ''}
-              onChange={(e) => this.handleChange(e, 'email')}
+              onChange={e => this.handleChange(e, 'email')}
             />
           </StretchBox>
           <StretchBox>
@@ -174,7 +174,7 @@ export default class AccountEdit extends Component {
               fullWidth
               value={phone}
               helperText={isPhoneError ? 'Your email is not a valid email' : ''}
-              onChange={(e) => this.handleChange(e, 'phone')}
+              onChange={e => this.handleChange(e, 'phone')}
             />
           </StretchBox>
           <StretchBox>
@@ -185,7 +185,7 @@ export default class AccountEdit extends Component {
               type="date"
               fullWidth
               value={dob}
-              onChange={(e) => this.handleChange(e, 'dob')}
+              onChange={e => this.handleChange(e, 'dob')}
             />
             <TextAreaError>
               {isDobError ? 'Your date of birth is required' : ''}
@@ -198,7 +198,7 @@ export default class AccountEdit extends Component {
               label="Bio"
               rowsMin={10}
               value={bio}
-              onChange={(e) => this.handleChange(e, 'bio')}
+              onChange={e => this.handleChange(e, 'bio')}
             />
             <TextAreaError>
               {isBioError ? 'Please provide a bio' : ''}
@@ -219,5 +219,8 @@ AccountEdit.propTypes = {
     phone: PropTypes.string,
     dob: PropTypes.string,
     bio: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 }

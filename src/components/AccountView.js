@@ -48,8 +48,8 @@ const Label = styled.div`
   font-weight: 700;
 `
 
-export default function AccountView(props) {
-  const { firstName, lastName, email, phone, dob, bio } = props.data
+export default function AccountView({ data }) {
+  const { firstName, lastName, email, phone, dob, bio } = data
   return (
     <Container maxWidth="sm">
       <Top>

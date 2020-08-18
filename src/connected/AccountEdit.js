@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import { editDetails } from '../actions'
 import AccountEdit from '../components/AccountEdit'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: state.account,
 })
 

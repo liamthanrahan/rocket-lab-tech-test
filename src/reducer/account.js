@@ -11,9 +11,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case 'EDIT_DETAILS':
-      return Object.assign({}, state, {
-        ...action.data,
-      })
+      return { ...state, ...action.data }
     default:
       return state
   }

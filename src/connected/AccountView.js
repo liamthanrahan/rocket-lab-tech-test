@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import AccountView from '../components/AccountView'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: state.account,
 })
 
