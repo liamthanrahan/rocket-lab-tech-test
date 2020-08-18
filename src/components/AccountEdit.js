@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { editDetails } from '../actions'
+import PropTypes from 'prop-types'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import styled from '@emotion/styled'
 import Container from '@material-ui/core/Container'
@@ -73,7 +71,7 @@ const TextAreaError = styled.div`
   color: #f44336;
 `
 
-class AccountEdit extends Component {
+export default class AccountEdit extends Component {
   constructor(props) {
     super(props)
     // Copy across the existing details to the state to be edited from the controlled inputs
@@ -117,11 +115,19 @@ class AccountEdit extends Component {
     return (
       <Container maxWidth="sm">
         <Top>
-          <BackButton to="/">
+          <BackButton to="/" data-testid="back">
             <BackButtonIcon />
           </BackButton>
           <PageHeader>My Account</PageHeader>
-          <SaveButton disabled={isAnyError} onClick={this.handleSave}>
+          <SaveButton
+            disabled={isAnyError}
+            onClick={() => {
+              if (!isAnyError) {
+                this.handleSave()
+              }
+            }}
+            data-testid="save"
+          >
             Save
           </SaveButton>
         </Top>
@@ -135,6 +141,7 @@ class AccountEdit extends Component {
               value={firstName}
               helperText={isFirstNameError ? 'Your first name is required' : ''}
               onChange={(e) => this.handleChange(e, 'firstName')}
+              data-testid="firstname"
             />
           </StretchBox>
           <StretchBox>
@@ -203,15 +210,14 @@ class AccountEdit extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: state.account,
-})
-
-const mapDispatchToProps = {
-  editDetails,
+AccountEdit.propTypes = {
+  editDetails: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    dob: PropTypes.string,
+    bio: PropTypes.string,
+  }).isRequired,
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(AccountEdit))

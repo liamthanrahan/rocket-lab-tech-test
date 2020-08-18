@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { Provider } from 'react-redux'
 import reducer from './reducer'
 
-import App from './components/App'
+import App from './App'
 
 const middleware = []
 

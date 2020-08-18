@@ -9,7 +9,7 @@ export default () => {
     new HTMLWebpackPlugin({
       template: HTMLWebpackTemplate,
       inject: false,
-      title: 'Full Stack Practice',
+      title: 'Rocket Lab Tech Test',
       mobile: true,
       chunks: ['main'],
       filename: 'index.html',

@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import Container from '@material-ui/core/Container'
 import Card from '@material-ui/core/Card'
@@ -48,7 +48,7 @@ const Label = styled.div`
   font-weight: 700;
 `
 
-function AccountView(props) {
+export default function AccountView(props) {
   const { firstName, lastName, email, phone, dob, bio } = props.data
   return (
     <Container maxWidth="sm">
@@ -88,10 +88,13 @@ function AccountView(props) {
   )
 }
 
-const mapStateToProps = (state) => ({
-  data: state.account,
-})
-
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccountView)
+AccountView.propTypes = {
+  data: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    dob: PropTypes.string,
+    bio: PropTypes.string,
+  }).isRequired,
+}

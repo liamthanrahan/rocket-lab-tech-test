@@ -6,8 +6,8 @@ import { injectGlobal } from 'emotion'
 import styled from '@emotion/styled'
 import { Route, Switch } from 'react-router-dom'
 
-import AccountView from './AccountView'
-import AccountEdit from './AccountEdit'
+import AccountView from './connected/AccountView'
+import AccountEdit from './connected/AccountEdit'
 
 const Container = styled.div`
   height: 100%;
